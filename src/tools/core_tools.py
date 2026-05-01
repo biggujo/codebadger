@@ -441,10 +441,8 @@ For GitHub repositories, it clones the repo first. For local paths, it copies th
 The CPG is cached by a hash of the codebase.
 
 Args:
-    source_type: Either 'local' or 'github'.
     source_path: Absolute path (local) or full GitHub URL.
     language: Programming language (java, c, cpp, python, javascript, go, etc.).
-    github_token: Optional PAT for private repos.
     branch: Optional specific git branch.
 
 Returns:
@@ -462,9 +460,9 @@ Notes:
 
 Examples:
     generate_cpg(
-        source_type="github",
-        source_path="https://github.com/joernio/sample-repo",
-        language="java"
+        source_path="/app/git/libjpeg-turbo",
+        language="cpp",
+        branch="3d4b0b8510e737b74ab7453457ae673dc584fb07ea9bd47b7af555fddd7291be"
     )""",
     )
     async def generate_cpg(
