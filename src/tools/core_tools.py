@@ -468,14 +468,15 @@ Examples:
     )""",
     )
     async def generate_cpg(
-        source_type: Annotated[str, Field(description="Either 'local' or 'github'")],
         source_path: Annotated[str, Field(description="For local: absolute path to source directory. For github: full GitHub URL (e.g., https://github.com/user/repo)")],
         language: Annotated[str, Field(description="Programming language - one of: java, c, cpp, javascript, python, go, kotlin, csharp, ghidra, jimple, php, ruby, swift")],
-        github_token: Annotated[Optional[str], Field(description="GitHub Personal Access Token for private repositories (optional)")] = None,
         branch: Annotated[Optional[str], Field(description="Specific git branch to checkout (optional, defaults to default branch)")] = None,
     ) -> Dict[str, Any]:
         """Create a Code Property Graph from source code for analysis."""
         try:
+            source_type = "local"
+            github_token = None
+
             # Validate inputs
             validate_source_type(source_type)
             validate_language(language)
