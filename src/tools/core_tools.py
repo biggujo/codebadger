@@ -395,13 +395,13 @@ def register_core_tools(mcp, services: dict):
         description="""Generate a Code Property Graph (CPG) for a codebase.
 
 This tool initiates the analysis process by generating a CPG for the specified codebase.
-For GitHub repositories, it clones the repo first. For local paths, it copies the source code.
+For local paths, it copies the source code.
 The CPG is cached by a hash of the codebase.
 
 Args:
-    source_path: Absolute path (local) or full GitHub URL.
+    source_path: Absolute path (local).
     language: Programming language (java, c, cpp, python, javascript, go, etc.).
-    branch: Optional specific git branch.
+    branch: Specific git branch.
 
 Returns:
     {
@@ -424,9 +424,9 @@ Examples:
     )""",
     )
     async def generate_cpg(
-        source_path: Annotated[str, Field(description="For local: absolute path to source directory. For github: full GitHub URL (e.g., https://github.com/user/repo)")],
+        source_path: Annotated[str, Field(description="Absolute path to source directory")],
         language: Annotated[str, Field(description="Programming language - one of: java, c, cpp, javascript, python, go, kotlin, csharp, ghidra, jimple, php, ruby, swift")],
-        branch: Annotated[Optional[str], Field(description="Specific git branch to checkout (optional, defaults to default branch)")] = None,
+        branch: Annotated[str, Field(description="Specific git branch to checkout (optional, defaults to default branch)")] = None,
     ) -> Dict[str, Any]:
         """Create a Code Property Graph from source code for analysis."""
         try:
