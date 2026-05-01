@@ -399,10 +399,8 @@ For GitHub repositories, it clones the repo first. For local paths, it copies th
 The CPG is cached by a hash of the codebase.
 
 Args:
-    source_type: Either 'local' or 'github'.
     source_path: Absolute path (local) or full GitHub URL.
     language: Programming language (java, c, cpp, python, javascript, go, etc.).
-    github_token: Optional PAT for private repos.
     branch: Optional specific git branch.
 
 Returns:
@@ -420,20 +418,21 @@ Notes:
 
 Examples:
     generate_cpg(
-        source_type="github",
-        source_path="https://github.com/joernio/sample-repo",
-        language="java"
+        source_path="/app/git/libjpeg-turbo",
+        language="cpp",
+        branch="3d4b0b8510e737b74ab7453457ae673dc584fb07ea9bd47b7af555fddd7291be"
     )""",
     )
     async def generate_cpg(
-        source_type: Annotated[str, Field(description="Either 'local' or 'github'")],
         source_path: Annotated[str, Field(description="For local: absolute path to source directory. For github: full GitHub URL (e.g., https://github.com/user/repo)")],
         language: Annotated[str, Field(description="Programming language - one of: java, c, cpp, javascript, python, go, kotlin, csharp, ghidra, jimple, php, ruby, swift")],
-        github_token: Annotated[Optional[str], Field(description="GitHub Personal Access Token for private repositories (optional)")] = None,
         branch: Annotated[Optional[str], Field(description="Specific git branch to checkout (optional, defaults to default branch)")] = None,
     ) -> Dict[str, Any]:
         """Create a Code Property Graph from source code for analysis."""
         try:
+            source_type = "local"
+            github_token = None
+
             # Validate inputs
             validate_source_type(source_type)
             validate_language(language)
